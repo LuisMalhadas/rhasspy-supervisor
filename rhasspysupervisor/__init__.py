@@ -565,11 +565,17 @@ def get_wake(
             return []
 
         sensitivity = profile.get("wake.porcupine.sensitivity", "0.5")
-
+        access_key = profile.get("wake.porcupine.access_key") or "NOKEY"
         wake_command = [
             "rhasspy-wake-porcupine-hermes",
             "--keyword",
             shlex.quote(str(keyword)),
+            "--access_key",
+            shlex.quote(str(access_key)),
+            "--library",
+            shlex.quote(str(profile.get("wake.porcupine.library_path") or "libpv_porcupine.so")),
+            "--model",
+            shlex.quote(str(profile.get("wake.porcupine.model_path") or "porcupine_params.pv")),
             "--sensitivity",
             str(sensitivity),
             "--keyword-dir",
